@@ -92,3 +92,94 @@ replaceOne(filter, data, options)
 deleteOne(filter, options)
 deleteMany(filter, options)
 ```
+
+---
+
+## Inserting Documents
+
+`insertMany()` allows us to Insert many elements into the database, It takes an Array of Objects that we want to Insert to database.
+
+```javascript
+db.users.insertMany([
+    {
+        name: 'Adarsh',
+        age: 23
+    },
+    {
+        name: 'Mark,
+        age: 30
+    }
+]);
+```
+
+`insertOne()` simply takes one object and Inserts it to the database, If `_id` is not specified it creates an Unique `ObjectId()` and assigns it to `_id` field. This property must be unique otherwise it will throw exception while writing to database.
+
+## Finding Documents
+
+We know that `find()` a cursor to all the documents in the collection, we can actually pass some filter and options to filter through documents.
+
+For that, we need to pass an object to `find()` method and specify our filter.
+
+```javascript
+db.users.find({name: 'Adarsh'}).toArray();
+```
+
+Now, find method will return cursor to all the documents with `name: 'Adarsh'` and we convert all of it to an Array by `toArray()` method.
+
+`findOne()` will return only the first document that matches the filter, if no filter is passed, It simply returns the first document in database.
+
+- Finding all the users whose age is greater than 20.
+
+```javascript
+db.users.find({age: {$gt: 20}});
+```
+
+Here, we passed an object to `age` property, and in the object we defined an special operator `$gt` which means greater than.
+
+## Updating Documents 
+
+We can update documents by using `updateOne()` and `updateMany()` methods.  
+
+While trying to update, MongoDB has no way to know how to update the documents so we have to explicitly tell it how to update, for these we use special operators available to describe the changes we wanna make on mongodb.These operators names start with `$` sign.
+
+Here, we pass two arguements to update function
+- First is the filter to select which document to update.
+- Second is an object with a special property `$set`.
+- The value `$set` property is the new update that we want to perform on the document.
+- The `$set` operator replaces the value of a field with the specified value.
+
+```javascript
+db.users.updateOne({name: 'Adarsh'}, {$set: {age: 23}});
+```
+
+Making some change on all the documents: 
+
+```javascript
+db.users.updateMany({}, {$set: {isAdmin: false}});
+```
+
+`updateMany()` has no filter, so it will peform the `$set` operation on all the documents in the collection, so isAdmin is now false for all users.
+
+
+There is another `update()` method, which we can use without `$set` operator but it basically overwrites the document with the data we provide, for such replacement task we can use `replaceOne()` method.
+
+```javascript
+db.users.replaceOne({_id: '02'}, {
+    name: 'Adarsh Chakraborty',
+    age: 23,
+    isAdmin: true
+});
+```
+
+Here, the document with `id: 23` will be replaced by this new document, the `_id` will remain the same ofc.
+
+## Deleting Documents 
+
+`deleteOne()` deletes one document from database where `deleteMany()` would try to delete many documents from the database.
+
+We can pass an object which specifies the criteria to delete the documents.
+
+- `deleteOne({name: 'Adarsh'});` deletes one document where `name` is `Adarsh`. (First Matched Document would be deleted).
+- `deleteMany({name: 'Max'});` deletes all documents where `name` is `Max`.
+- `deleteMany({});` deletes all the documents from a collection as no filter is passed.
+- `deleteOne({});` deletes the first document from the collection as no filter is passed. 
