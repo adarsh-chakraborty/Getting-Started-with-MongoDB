@@ -183,3 +183,30 @@ We can pass an object which specifies the criteria to delete the documents.
 - `deleteMany({name: 'Max'});` deletes all documents where `name` is `Max`.
 - `deleteMany({});` deletes all the documents from a collection as no filter is passed.
 - `deleteOne({});` deletes the first document from the collection as no filter is passed. 
+
+---
+
+# Projection
+
+By default, queries in MongoDB return all fields in matching documents. To limit the amount of data that MongoDB sends to applications, you can include a projection document to specify or restrict fields to return. It is passed in 2nd arguement in `find()`, `findOne()` methods.
+
+```
+db.inventory.find( { status: "A" }, { item: 1, status: 1, _id: 0 } );
+```
+
+- `1` means Include.
+- `0` means Exclude or Suppress.
+- `_id` is always included by default, to supress the `_id` as well.
+- We have to explicitly exclude it by setting `{ _id: 0 }` in projection.
+
+# Embedded Documents 
+
+MongoDB provides you a cool feature which is known as Embedded or Nested Document. Embedded document or nested documents are those types of documents which contain a document inside another document.
+
+OR, In other words, when a collection has a document, this document contains another document, another document contains another sub-document, and so on, then such types of documents are known as embedded/nested documents.  
+
+
+It's a core feature of MongoDB.
+
+- MongoDB can store upto `100 levels` of Nested documents.
+- The maximum BSON document size is 16 megabytes.
