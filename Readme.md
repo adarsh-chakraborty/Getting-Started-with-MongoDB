@@ -210,3 +210,12 @@ It's a core feature of MongoDB.
 
 - MongoDB can store upto `100 levels` of Nested documents.
 - The maximum BSON document size is 16 megabytes.
+
+# Schema and Modeling Data
+
+Before you ask **"Isn't MongoDB Schema Less??!!"**, yes It is Schema-less, It allows us to store data without having a proper Schema but Sometimes and mostly we would like to keep data in a proper Schema.
+
+Like a Product will have some Details like Id, Product Name, Stock and Price, 
+Then Orders would contain the Products, UserId, Payment details etc.
+
+So, MongoDB enforces no Schema on us but Having Schema is Important, It's just we can store Schemaless stuff.
